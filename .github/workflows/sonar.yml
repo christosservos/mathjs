@@ -1,0 +1,25 @@
+name: SAST - SonarCloud
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+
+  P_WD_analysis:
+    name: SAST - SonarCloud - Push/WD analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout action
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis 
+      - name: SonarCloud Scan - Action
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+            args: >
+                -Dsonar.organization=christosservos
+                -Dsonar.projectKey=christosservos_mathjs
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      
