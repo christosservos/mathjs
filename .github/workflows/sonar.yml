@@ -9,12 +9,21 @@ jobs:
   P_WD_analysis:
     name: SAST - SonarCloud - Push/WD analysis
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x, 18.x, 20.x]
     steps:
       - name: Checkout action
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis 
-      - run: which nodejs && which node     
+          
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          
+      - run: which nodejs    
       - name: SonarCloud Scan - Action
         uses: SonarSource/sonarcloud-github-action@master
         with:
