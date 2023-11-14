@@ -1,4 +1,4 @@
- name: SAST - SonarCloud
+name: SAST - SonarCloud
 on:
   push:
   pull_request:
